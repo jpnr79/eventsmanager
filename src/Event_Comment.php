@@ -259,7 +259,7 @@ class Event_Comment extends CommonDBTM
             $html          .= "<div class='h_info'>";
             $html          .= "<div class='h_date'>" . Html::convDateTime($comment['date_creation']) . "</div>";
             $html          .= "<div class='h_user'>";
-            $thumbnail_url = User::getThumbnailURLForPicture($user->fields['picture']);
+            $thumbnail_url = User::getThumbnailURLForPicture($user->fields['picture'] ?? '');
             $style         = !empty($thumbnail_url) ? "background-image: url(\"$thumbnail_url\")" : ("background-color: " . $user->getUserInitialsBgColor());
             $html          .= '<a href="' . $user->getLinkURL() . '">';
             $html          .= "<span class='avatar avatar-md rounded' style='{$style}'>";
@@ -328,7 +328,7 @@ class Event_Comment extends CommonDBTM
         if ($edit !== false) {
             $comment = new self();
             $comment->getFromDB($edit);
-            $content = $comment->fields['comment'];
+            $content = $comment->fields['comment'] ?? '';
         }
 
         $html = '';

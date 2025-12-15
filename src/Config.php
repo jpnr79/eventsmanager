@@ -82,7 +82,7 @@ class Config extends CommonDBTM {
       echo __('Uto use the automatic closing of an event when creating a ticket from an event', 'eventsmanager');
       echo "</td>";
       echo "<td>";
-      Dropdown::showYesNo('use_automatic_close', $config->fields['use_automatic_close']);
+      Dropdown::showYesNo('use_automatic_close', $config->fields['use_automatic_close'] ?? '');
       echo "</td></tr>";
 
       echo "<tr><th colspan='2'>";

@@ -138,15 +138,15 @@ class Ticket extends CommonDBTM
 
             $users_id_recipient = $_SESSION['glpiID'];
             $date               = $_SESSION['glpi_currenttime'];
-            $name               = $evt->fields['name'];
-            $entities_id        = $evt->fields['entities_id'];
-            $user_id            = $evt->fields['users_close'];
+            $name               = $evt->fields['name'] ?? '';
+            $entities_id        = $evt->fields['entities_id'] ?? '';
+            $user_id            = $evt->fields['users_close'] ?? '';
             $requesttype        = 0;
             $origin             = new Origin();
-            if ($evt->fields['plugin_eventsmanager_origins_id'] > 0
-                && $origin->getFromDB($evt->fields['plugin_eventsmanager_origins_id'])) {
-                if ($origin->fields['requesttypes_id'] > 0) {
-                    $requesttype = $origin->fields['requesttypes_id'];
+            if ($evt->fields['plugin_eventsmanager_origins_id'] ?? '' > 0
+                && $origin->getFromDB($evt->fields['plugin_eventsmanager_origins_id'] ?? '')) {
+                if ($origin->fields['requesttypes_id'] ?? '' > 0) {
+                    $requesttype = $origin->fields['requesttypes_id'] ?? '';
                 }
             }
 
@@ -156,10 +156,10 @@ class Ticket extends CommonDBTM
                 '_users_id_requester' => $users_id_recipient,
                 'users_id_recipient' => $users_id_recipient,
                 'requesttypes_id'    => $requesttype,
-                'content'            => $evt->fields['comment'],
-                'priority'           => $evt->fields['priority'],
-                'impact'             => $evt->fields['impact'],
-                'time_to_resolve'    => $evt->fields['time_to_resolve'],
+                'content'            => $evt->fields['comment'] ?? '',
+                'priority'           => $evt->fields['priority'] ?? '',
+                'impact'             => $evt->fields['impact'] ?? '',
+                'time_to_resolve'    => $evt->fields['time_to_resolve'] ?? '',
                 'type'               => \Ticket::INCIDENT_TYPE]);
             /*
              * Modification association document to ticket
@@ -200,7 +200,7 @@ class Ticket extends CommonDBTM
                 $config = new Config();
                 $config->getFromDB(1);
 
-                if ($config->fields['use_automatic_close']) {
+                if ($config->fields['use_automatic_close'] ?? '') {
                     $evt->update(['id'          => $id,
                         'ticket'      => $tickets_id,
                         'users_close' => $user_id,
@@ -324,10 +324,10 @@ class Ticket extends CommonDBTM
                 $origin = new Origin();
                 if ($origin->getFromDB($data["plugin_eventsmanager_origins_id"])) {
                     echo "<br>";
-                    echo Origin::getItemtypeOrigin($origin->fields['itemtype']);
+                    echo Origin::getItemtypeOrigin($origin->fields['itemtype'] ?? '');
                     echo " - ";
-                    echo Origin::getItemOrigin('items_id', ["itemtype" => $origin->fields['itemtype'],
-                        "items_id" => $origin->fields['items_id']]);
+                    echo Origin::getItemOrigin('items_id', ["itemtype" => $origin->fields['itemtype'] ?? '',
+                        "items_id" => $origin->fields['items_id'] ?? '']);
 
                 }
                 echo "</td>";
@@ -404,8 +404,8 @@ class Ticket extends CommonDBTM
 
         $event->getFromDB($ID);
 
-        if ($event->fields['status'] < Event::CLOSED_STATE
-            && $event->fields['status'] > 0) {
+        if ($event->fields['status'] ?? '' < Event::CLOSED_STATE
+            && $event->fields['status'] ?? '' > 0) {
 
             echo "<div class='center'>";
             echo "<form method='post' name='event_form'
@@ -448,7 +448,7 @@ class Ticket extends CommonDBTM
             echo "</div>";
         }
         $eventsmanager_ticket = new Ticket();
-        $tickets              = $eventsmanager_ticket->find(['plugin_eventsmanager_events_id' => $event->fields['id']]);
+        $tickets              = $eventsmanager_ticket->find(['plugin_eventsmanager_events_id' => $event->fields['id'] ?? '']);
 
         if (count($tickets) > 0) {
 
@@ -478,7 +478,7 @@ class Ticket extends CommonDBTM
                     echo "<td class='center'>";
                     echo \Ticket::getStatus($ticket->fields["status"]);
                     echo "</td>";
-                    $style = "style=\"background-color:" . $_SESSION["glpipriority_" . $ticket->fields['priority']] . ";\" ";
+                    $style = "style=\"background-color:" . $_SESSION["glpipriority_" . $ticket->fields['priority'] ?? ''] . ";\" ";
                     echo "<td class='center' $style>";
                     echo CommonITILObject::getPriorityName($ticket->fields["priority"]);
                     echo "</td>";

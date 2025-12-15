@@ -81,8 +81,8 @@ class Event_Item extends CommonDBRelation
         $event = new Event();
         // Not item linked for closed events
 
-        if ($event->getFromDB($this->fields['plugin_eventsmanager_events_id'])
-          && in_array($event->fields['status'], $event->getClosedStatusArray())) {
+        if ($event->getFromDB($this->fields['plugin_eventsmanager_events_id'] ?? '')
+          && in_array($event->fields['status'] ?? '', $event->getClosedStatusArray())) {
             return false;
         }
 
@@ -98,7 +98,7 @@ class Event_Item extends CommonDBRelation
     {
 
         $event = new Event();
-        $input = ['id'            => $this->fields['plugin_eventsmanager_events_id'],
+        $input = ['id'            => $this->fields['plugin_eventsmanager_events_id'] ?? '',
             'date_mod'      => $_SESSION["glpi_currenttime"],
             '_donotadddocs' => true];
 
@@ -118,7 +118,7 @@ class Event_Item extends CommonDBRelation
     {
 
         $event = new Event();
-        $input = ['id'            => $this->fields['plugin_eventsmanager_events_id'],
+        $input = ['id'            => $this->fields['plugin_eventsmanager_events_id'] ?? '',
             'date_mod'      => $_SESSION["glpi_currenttime"],
             '_donotadddocs' => true];
 
@@ -165,8 +165,8 @@ class Event_Item extends CommonDBRelation
         global $CFG_GLPI;
 
         $params = ['id'                  => (isset($event->fields['id'])
-                                           && $event->fields['id'] != '')
-         ? $event->fields['id']
+                                           && $event->fields['id'] ?? '' != '')
+         ? $event->fields['id'] ?? ''
          : 0,
             '_users_id_requester' => 0,
             'items_id'            => [],
@@ -325,7 +325,7 @@ class Event_Item extends CommonDBRelation
         global $DB, $CFG_GLPI;
 
         $dbu    = new DbUtils();
-        $instID = $event->fields['id'];
+        $instID = $event->fields['id'] ?? '';
 
         if (!$event->can($instID, READ)) {
             return false;
@@ -870,8 +870,8 @@ class Event_Item extends CommonDBRelation
         }
 
         if ($addMessAfterRedirect) {
-            $item = $dbu->getItemForItemtype($this->fields['itemtype']);
-            $item->getFromDB($this->fields['items_id']);
+            $item = $dbu->getItemForItemtype($this->fields['itemtype'] ?? '');
+            $item->getFromDB($this->fields['items_id'] ?? '');
 
             $link = $item->getFormURL();
             if (!isset($link)) {
@@ -882,7 +882,7 @@ class Event_Item extends CommonDBRelation
                 $item->fields['name'] = sprintf(
                     __('%1$s - ID %2$d'),
                     $item->getTypeName(1),
-                    $item->fields['id']
+                    $item->fields['id'] ?? ''
                 );
             }
 
@@ -921,8 +921,8 @@ class Event_Item extends CommonDBRelation
         }
 
         if ($addMessAfterRedirect) {
-            $item = $dbu->getItemForItemtype($this->fields['itemtype']);
-            $item->getFromDB($this->fields['items_id']);
+            $item = $dbu->getItemForItemtype($this->fields['itemtype'] ?? '');
+            $item->getFromDB($this->fields['items_id'] ?? '');
 
             $link = $item->getFormURL();
             if (!isset($link)) {

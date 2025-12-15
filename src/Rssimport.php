@@ -119,21 +119,21 @@ class Rssimport extends CommonDBTM
         echo "<tr class='tab_bg_2'><td>" . __("Do you want to use this RSS feed to create event", 'eventsmanager') . " ?</td><td>";
         Dropdown::showYesNo(
             'use_with_plugin',
-            $this->fields['use_with_plugin']
+            $this->fields['use_with_plugin'] ?? ''
         );
         echo "</td></tr>";
 
         echo "<tr class='tab_bg_2'>";
         echo "<td>" . __('Entity') . "</td><td>";
         Entity::dropdown(['name'  => 'entities_id_import',
-                        'value' => $this->fields['entities_id_import']]);
+                        'value' => $this->fields['entities_id_import'] ?? '']);
         echo "</td>";
         echo "</tr>";
 
         echo "<tr class='tab_bg_2'>";
         echo "<td>" . __('Default impact', 'eventsmanager') . "</td><td>";
         \Ticket::dropdownImpact(['name'      => 'default_impact',
-                              'value'     => $this->fields['default_impact'],
+                              'value'     => $this->fields['default_impact'] ?? '',
                               'withmajor' => 1]);
         echo "</td>";
         echo "</tr>";
@@ -141,7 +141,7 @@ class Rssimport extends CommonDBTM
         echo "<tr class='tab_bg_2'>";
         echo "<td>" . __('Default priority', 'eventsmanager') . "</td><td>";
         CommonITILObject::dropdownPriority(['name'      => 'default_priority',
-                                          'value'     => $this->fields['default_priority'],
+                                          'value'     => $this->fields['default_priority'] ?? '',
                                           'withmajor' => 1]);
         echo "</td>";
         echo "</tr>";
@@ -149,7 +149,7 @@ class Rssimport extends CommonDBTM
         echo "<tr class='tab_bg_2'>";
         echo "<td>" . __('Default event type', 'eventsmanager') . "</td><td>";
         Event::dropdownType(['name'  => 'default_eventtype',
-                                              'value' => $this->fields['default_eventtype']]);
+                                              'value' => $this->fields['default_eventtype'] ?? '']);
         echo "</td>";
         echo "</tr>";
 
@@ -210,8 +210,8 @@ class Rssimport extends CommonDBTM
             while ($data = $DB->fetchAssoc($result)) {
                 $id = $data['id'];
                 if ($rssfeed->getFromDB($data['rssfeeds_id'])) {
-                    if (($feed = RSSFeed::getRSSFeed($rssfeed->fields['url'])) !== false) {
-                        foreach ($feed->get_items(0, $rssfeed->fields['max_items']) as $item) {
+                    if (($feed = RSSFeed::getRSSFeed($rssfeed->fields['url'] ?? '')) !== false) {
+                        foreach ($feed->get_items(0, $rssfeed->fields['max_items'] ?? '') as $item) {
                           //test if already imported item based on the url
                             if ($data['last_rssfeed_url'] != $item->get_link()) {
                                  $input['date_creation'] = $item->get_date('Y-m-d H:i:s');
