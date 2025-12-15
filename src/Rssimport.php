@@ -84,7 +84,7 @@ class Rssimport extends CommonDBTM
     *
     * @return bool
     */
-    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
+    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0): bool
     {
 
         $rss = new self();
