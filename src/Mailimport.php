@@ -109,7 +109,7 @@ class Mailimport extends CommonDBTM {
       echo "<tr class='tab_bg_2'>";
       echo "<td>" . __('Default impact', 'eventsmanager') . "</td><td>";
       \Ticket::dropdownImpact(['name'      => 'default_impact',
-                              'value'     => $this->fields['default_impact'] ?? '',
+                              'value'     => (($this->fields['default_impact'] ?? '')),
                               'withmajor' => 1]);
       echo "</td>";
       echo "</tr>";
@@ -117,7 +117,7 @@ class Mailimport extends CommonDBTM {
       echo "<tr class='tab_bg_2'>";
       echo "<td>" . __('Default priority', 'eventsmanager') . "</td><td>";
       CommonITILObject::dropdownPriority(['name'      => 'default_priority',
-                                          'value'     => $this->fields['default_priority'] ?? '',
+                                          'value'     => (($this->fields['default_priority'] ?? '')),
                                           'withmajor' => 1]);
       echo "</td>";
       echo "</tr>";
@@ -125,7 +125,7 @@ class Mailimport extends CommonDBTM {
       echo "<tr class='tab_bg_2'>";
       echo "<td>" . __('Default event type', 'eventsmanager') . "</td><td>";
       Event::dropdownType(['name'  => 'default_eventtype',
-                                              'value' => $this->fields['default_eventtype'] ?? '']);
+                                              'value' => (($this->fields['default_eventtype'] ?? ''))]);
       echo "</td>";
       echo "</tr>";
 

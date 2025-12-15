@@ -372,7 +372,7 @@ class Event extends CommonDBTM
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Name') . "</td>";
         echo "<td>";
-        echo Html::input('name', ['value' => $this->fields['name'] ?? '', 'size' => 40]);
+        echo Html::input('name', ['value' => (($this->fields['name'] ?? '')), 'size' => 40]);
         echo "</td>";
         echo "<td>" . __('Associated element', 'eventsmanager') . "</td><td>";
         Event_Item::itemAddForm($this, $options);
@@ -382,7 +382,7 @@ class Event extends CommonDBTM
 
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Impact') . "</td><td>";
-        \Ticket::dropdownImpact(['value'     => $this->fields['impact'] ?? '',
+        \Ticket::dropdownImpact(['value'     => (($this->fields['impact'] ?? '')),
             'withmajor' => 1]);
         echo "</td>";
 
@@ -412,10 +412,10 @@ class Event extends CommonDBTM
         echo "<span id='show_items_id$rand'>";
         $origin = new Origin();
         if ($origin->getFromDB($this->fields["plugin_eventsmanager_origins_id"])) {
-            echo Origin::getItemtypeOrigin($origin->fields['itemtype'] ?? '');
+            echo Origin::getItemtypeOrigin((($origin->fields['itemtype'] ?? '')));
             echo " - ";
-            echo Origin::getItemOrigin('items_id', ["itemtype" => $origin->fields['itemtype'] ?? '',
-                "items_id" => $origin->fields['items_id'] ?? '']);
+            echo Origin::getItemOrigin('items_id', ["itemtype" => (($origin->fields['itemtype'] ?? '')),
+                "items_id" => (($origin->fields['items_id'] ?? ''))]);
         }
         echo "</span>\n";
 
@@ -426,13 +426,13 @@ class Event extends CommonDBTM
         echo "<tr class='tab_bg_1'>";
         echo "<td>" . __('Priority') . "</td>";
         echo "<td>";
-        CommonITILObject::dropdownPriority(['value'     => $this->fields['priority'] ?? '',
+        CommonITILObject::dropdownPriority(['value'     => (($this->fields['priority'] ?? '')),
             'withmajor' => 1]);
         echo "</td>";
         echo "<td>" . __('Event type', 'eventsmanager');
         echo "</td>";
         echo "<td>";
-        self::dropdownType(['value' => $this->fields['eventtype'] ?? '']);
+        self::dropdownType(['value' => (($this->fields['eventtype'] ?? ''))]);
         echo "</td>";
         echo "</tr>";
 
@@ -457,8 +457,8 @@ class Event extends CommonDBTM
         if ($ID > 0) {
             echo "<td>" . __('Status') . "</td>";
             echo "<td>";
-            if ($this->fields['status'] ?? '' > 0) {
-                $status = $this->fields['status'] ?? '';
+            if ((($this->fields['status'] ?? '')) > 0) {
+                $status = (($this->fields['status'] ?? ''));
             } else {
                 $status = self::NEW_STATE;
             }
@@ -469,8 +469,8 @@ class Event extends CommonDBTM
             echo "</td>";
         }
 
-        if ($this->fields['status'] ?? '' < self::CLOSED_STATE
-          && $this->fields['status'] ?? '' > 0) {
+        if ((($this->fields['status'] ?? '')) < self::CLOSED_STATE
+          && (($this->fields['status'] ?? '')) > 0) {
             //gestion of action
             echo "<td >" . __('Actions', 'eventsmanager') . "</td>";
             echo "<td >";
@@ -523,7 +523,7 @@ class Event extends CommonDBTM
             echo "<td>";
             echo __('Date Assign', 'eventsmanager') . "</td>";
             echo "<td>";
-            echo Html::convDateTime($this->fields['date_assign'] ?? '', 1);
+            echo Html::convDateTime((($this->fields['date_assign'] ?? '')), 1);
             echo "</td>";
         }
 
@@ -543,7 +543,7 @@ class Event extends CommonDBTM
             echo "<td>";
             echo __('Close date') . "</td>";
             echo "<td>";
-            echo Html::convDateTime($this->fields['date_close'] ?? '', 1);
+            echo Html::convDateTime((($this->fields['date_close'] ?? '')), 1);
             echo "</td>";
             echo "</tr>";
         }
@@ -575,7 +575,7 @@ class Event extends CommonDBTM
                 foreach ($items as $items_id) {
                     $event_item->add(['items_id'                       => $items_id,
                         'itemtype'                       => $itemtype,
-                        'plugin_eventsmanager_events_id' => $this->fields['id'] ?? '',
+                        'plugin_eventsmanager_events_id' => (($this->fields['id'] ?? '')),
                         '_disablenotif'                  => true]);
                 }
             }
@@ -601,7 +601,7 @@ class Event extends CommonDBTM
                 foreach ($items as $items_id) {
                     $event_item->add(['items_id'                       => $items_id,
                         'itemtype'                       => $itemtype,
-                        'plugin_eventsmanager_events_id' => $this->fields['id'] ?? '',
+                        'plugin_eventsmanager_events_id' => (($this->fields['id'] ?? '')),
                         '_disablenotif'                  => true]);
                 }
             }
@@ -612,10 +612,10 @@ class Event extends CommonDBTM
     {
 
         $it = new Event_Item();
-        $it->deleteByCriteria(['plugin_eventsmanager_events_id' => $this->fields['id'] ?? '']);
+        $it->deleteByCriteria(['plugin_eventsmanager_events_id' => (($this->fields['id'] ?? ''))]);
 
         $ti = new Ticket();
-        $ti->deleteByCriteria(['plugin_eventsmanager_events_id' => $this->fields['id'] ?? '']);
+        $ti->deleteByCriteria(['plugin_eventsmanager_events_id' => (($this->fields['id'] ?? ''))]);
 
         parent::cleanDBonPurge();
     }
@@ -914,9 +914,9 @@ class Event extends CommonDBTM
                         $config = new Mailimport();
                         if (isset($params['mailcollector'])
                         && $config->getFromDBByCrit(['mailcollectors_id' => $params['mailcollector']])) {
-                            $input['priority']  = $config->fields['default_priority'] ?? '';
-                            $input['impact']    = $config->fields['default_impact'] ?? '';
-                            $input['eventtype'] = $config->fields['default_eventtype'] ?? '';
+                            $input['priority']  = (($config->fields['default_priority'] ?? ''));
+                            $input['impact']    = (($config->fields['default_impact'] ?? ''));
+                            $input['eventtype'] = (($config->fields['default_eventtype'] ?? ''));
                         }
 
                         $input['date_creation'] = $_SESSION['glpi_currenttime'];

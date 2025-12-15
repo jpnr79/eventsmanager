@@ -129,7 +129,7 @@ class Origin extends CommonDropdown
 
         switch ($field['name']) {
             case 'itemtype':
-                self::dropdownItemOrigin($ID, $this->fields['itemtype'] ?? '');
+                self::dropdownItemOrigin($ID, (($this->fields['itemtype'] ?? '')));
                 break;
             case 'items_id':
                 self::selectItems($this);
@@ -204,8 +204,8 @@ class Origin extends CommonDropdown
         global $CFG_GLPI;
 
         if ($ID > 0) {
-            echo self::getItemtypeOrigin($this->fields['itemtype'] ?? '');
-            echo Html::hidden('itemtype', ['value' => $this->fields['itemtype'] ?? '']);
+            echo self::getItemtypeOrigin((($this->fields['itemtype'] ?? '')));
+            echo Html::hidden('itemtype', ['value' => (($this->fields['itemtype'] ?? ''))]);
         } else {
             $rand = Dropdown::showFromArray('itemtype', self::getAllItemOriginArray(), ['display_emptychoice' => true]);
 
@@ -227,8 +227,8 @@ class Origin extends CommonDropdown
         echo "<span id='span_itemtype'>";
 
         self::dropdownItems(
-            $origin->fields['itemtype'] ?? '',
-            ['value' => $origin->fields['items_id'] ?? '']
+            (($origin->fields['itemtype'] ?? '')),
+            ['value' => (($origin->fields['items_id'] ?? ''))]
         );
         echo "</span>";
     }

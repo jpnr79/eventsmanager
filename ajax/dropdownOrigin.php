@@ -41,10 +41,10 @@ if (isset($_POST["plugin_eventsmanager_origins_id"])) {
 
    $origin = new Origin();
    if ($origin->getFromDB($_POST["plugin_eventsmanager_origins_id"])) {
-      echo Origin::getItemtypeOrigin($origin->fields['itemtype'] ?? '');
+      echo Origin::getItemtypeOrigin((($origin->fields['itemtype'] ?? '')));
       echo " - ";
-      echo Origin::getItemOrigin('items_id', ["itemtype" => $origin->fields['itemtype'] ?? '',
-         "items_id" => $origin->fields['items_id'] ?? '']);
+      echo Origin::getItemOrigin('items_id', ["itemtype" => (($origin->fields['itemtype'] ?? '')),
+         "items_id" => (($origin->fields['items_id'] ?? ''))]);
 
    }
 }
