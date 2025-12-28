@@ -489,11 +489,11 @@ class Ticket extends CommonDBTM
                         $item = new $itemtype();
                         foreach ($items_id as $item_id) {
                             echo $item::getTypeName();
+                            $item->getFromDB($item_id);
+                            echo "<br>";
+                            echo $item->getLink();
+                            echo "<br>";
                         }
-                        $item->getFromDB($item_id);
-                        echo "<br>";
-                        echo $item->getLink();
-                        echo "<br>";
                     }
                     echo "</td>";
                     echo "</tr>";
